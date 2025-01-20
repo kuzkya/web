@@ -1,0 +1,46 @@
+-- Создание базы данных
+CREATE DATABASE IF NOT EXISTS Port;
+USE Port;
+
+-- Таблица пунктов назначения
+CREATE TABLE IF NOT EXISTS Destinations (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+-- Таблица паромов
+CREATE TABLE IF NOT EXISTS Ferries (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    car_capacity INT NOT NULL,
+    cargo_capacity INT NOT NULL
+);
+
+-- Таблица рейсов
+CREATE TABLE IF NOT EXISTS Trips (
+    id SERIAL PRIMARY KEY,
+    destination_id INT REFERENCES Destinations(id),
+    ferry_id INT REFERENCES Ferries(id)
+);
+
+-- Таблица типов автомобилей
+CREATE TABLE IF NOT EXISTS Vehicle_Types (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    size INT NOT NULL
+);
+
+-- Таблица автомобилей и грузов
+CREATE TABLE IF NOT EXISTS Cargos (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    type_id INT REFERENCES VehicleTypes(id),
+    is_cargo BOOLEAN NOT NULL
+);
+
+-- Таблица элементов рейса (грузы и автомобили)
+CREATE TABLE IF NOT EXISTS Trip_Items (
+    id SERIAL PRIMARY KEY,
+    trip_id INT REFERENCES Trips(id),
+    cargo_id INT REFERENCES CargoVehicles(id)
+);
